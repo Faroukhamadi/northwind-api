@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+  db:
+    container_name: db
+    image: postgres
+    environment:
+      POSTGRES_DB: world
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgresql_bin:/usr/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+      - ./world.sql:/docker-entrypoint-initdb.d/world.sql
+    ports:
+      - 55432:5432
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  pgadmin_root_prefs:
+    driver: local
+  postgresql_data:
+    driver: local
+  postgresql_bin:
+    driver: local
