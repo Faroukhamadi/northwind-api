@@ -2,6 +2,8 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
@@ -9,6 +11,12 @@ import (
 // Country_language holds the schema definition for the Country_language entity.
 type Country_language struct {
 	ent.Schema
+}
+
+func (Country_language) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{Table: "country_language"},
+	}
 }
 
 // Fields of the Country_language.
