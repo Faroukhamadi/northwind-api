@@ -102,19 +102,36 @@ func newServer(db *sql.DB, orm *ent.Client, router *gin.Engine) *server {
 	return s
 }
 
-func (s *server) routes(greeter string) {
-	handleAPI := s.router.Group("/api")
-	handleAPI.GET("/hello", func(ctx *gin.Context) {
+func (s *server) handleAPI() gin.HandlersChain {
+	handler := s.router.Group("/api")
+
+	handler.GET("/hello", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
-			"greeter": greeter,
+			"greeter": "hello",
 		})
 	})
 
-	handleAPI.GET("/bye", func(ctx *gin.Context) {
+	handler.GET("/bye", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"bye": "lataaa",
 		})
 	})
+	return handler.Handlers
+}
+
+func (s *server) handleCountries() gin.HandlersChain {
+	handler := s.router.Group("/countries")
+	handler.GET("/tunisia", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
+			"name":       "Tunisia",
+			"population": "11.552.842",
+		})
+	})
+	return handler.Handlers
+}
+
+func (s *server) routes(greeter string) {
 	// implement this
-	s.router.GET("/api/", handleAPI.Handlers...)
+	s.router.GET("/api", s.handleAPI()...)
+	s.router.GET("/countries", s.handleCountries()...)
 }
