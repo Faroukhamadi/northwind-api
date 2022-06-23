@@ -14,6 +14,5 @@ func (s *Server) GetOne(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	s.l.Println("this is the response: ", countries[0])
-	w.Write([]byte(countries[0].Name))
+	s.respond(w, r, countries, http.StatusOK)
 }
