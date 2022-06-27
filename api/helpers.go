@@ -11,7 +11,7 @@ func (s *Server) respond(w http.ResponseWriter, r *http.Request, data interface{
 	if data != nil {
 		err := json.NewEncoder(w).Encode(data)
 		if err != nil {
-			http.Error(w, "[ERROR]Unable to encode data", http.StatusInternalServerError)
+			http.Error(w, "[ERROR] Unable to encode data", http.StatusInternalServerError)
 		}
 	}
 }

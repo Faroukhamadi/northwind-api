@@ -37,7 +37,11 @@ func Init() (srv *http.Server) {
 	// defer s.orm.Close()
 
 	getR := s.router.Methods(http.MethodGet).Subrouter()
-	getR.HandleFunc("/", s.GetOne)
+	getR.HandleFunc("/", s.GetAll)
+	// handle this later using /2 for example
+	// getR.HandleFunc("/{id:[0-9]+}", s.GetOne)
+	getR.HandleFunc("/country", s.GetOne).
+		Queries("id", "{id:[0-9]+}")
 
 	srv = &http.Server{
 		Addr:    ":9090",
