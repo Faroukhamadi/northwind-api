@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-	// "github.com/Faroukhamadi/northwind-api/utils"
 )
 
 func (s *Server) respond(w http.ResponseWriter, r *http.Request, data interface{}, status int) {

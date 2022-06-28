@@ -33,8 +33,6 @@ func Init() (srv *http.Server) {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
-	// defer s.db.Close()
-	// defer s.orm.Close()
 
 	getR := s.router.Methods(http.MethodGet).Subrouter()
 	getR.HandleFunc("/countries", s.GetOne).
@@ -73,5 +71,6 @@ func run() (s *Server, err error) {
 	sm := mux.NewRouter()
 
 	s = newServer(l, sm, db, client)
+
 	return
 }
