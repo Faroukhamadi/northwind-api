@@ -48,7 +48,7 @@ func Init() (srv *http.Server) {
 		Handler: s,
 	}
 
-	return
+	return srv
 
 }
 
