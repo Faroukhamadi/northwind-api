@@ -8,6 +8,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// GetAll godoc
+// @Summary Get all countries details
+// @Description get all details
+// @ID get-countries-details
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} response.JSONSuccessResult{data=models.Country,code=int,message=string}
+// @Failure 500 {object} response.JSONIntServerErrReqResult{code=int,message=string}
+// @Router /countries [get]
 func (s *Server) GetAll(w http.ResponseWriter, r *http.Request) {
 	s.l.Println("[DEBUG] GET ALL METHOD")
 	ctx := context.Background()
@@ -15,6 +24,7 @@ func (s *Server) GetAll(w http.ResponseWriter, r *http.Request) {
 	countries, err := s.orm.Country.Query().All(ctx)
 	if err != nil {
 		s.l.Fatal("[ERROR]", err)
+		http.Error(w, "failed querying countries from db", http.StatusInternalServerError)
 	}
 	s.respond(w, r, countries, http.StatusOK)
 }
@@ -27,6 +37,7 @@ func (s *Server) GetOne(w http.ResponseWriter, r *http.Request) {
 	country, err := s.orm.Country.Get(ctx, vars["id"])
 	if err != nil {
 		s.l.Fatal("[ERROR]", err)
+		http.Error(w, "failed querying country by id from db", http.StatusInternalServerError)
 	}
 	s.respond(w, r, country, http.StatusOK)
 }
