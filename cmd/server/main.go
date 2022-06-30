@@ -13,6 +13,8 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 
 	"github.com/Faroukhamadi/northwind-api/api"
+
+	_ "github.com/Faroukhamadi/northwind-api/models"
 )
 
 // @title           Swagger Example API
@@ -37,8 +39,6 @@ import (
 
 func main() {
 	s := api.Init()
-	log.Println("Listening on port", s.Addr[1:])
-	s.ListenAndServe()
 
 	go func() {
 		log.Println("Starting server on port", s.Addr)

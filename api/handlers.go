@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Faroukhamadi/northwind-api/ent"
+	models "github.com/Faroukhamadi/northwind-api/models"
 	"github.com/gorilla/mux"
 )
 
@@ -14,10 +15,14 @@ import (
 // @ID get-countries-details
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} response.JSONSuccessResult{data=models.Country,code=int,message=string}
-// @Failure 500 {object} response.JSONIntServerErrReqResult{code=int,message=string}
+// @Success 200 {array} models.Country
+// @Failure 500 {string} string "Internal server error"
 // @Router /countries [get]
 func (s *Server) GetAll(w http.ResponseWriter, r *http.Request) {
+
+	var c models.Country
+	c.Code2 = "2"
+
 	s.l.Println("[DEBUG] GET ALL METHOD")
 	ctx := context.Background()
 
@@ -29,6 +34,15 @@ func (s *Server) GetAll(w http.ResponseWriter, r *http.Request) {
 	s.respond(w, r, countries, http.StatusOK)
 }
 
+// GetOne godoc
+// @Summary Get country details
+// @Description get all details
+// @ID get-country-details
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Country
+// @Failure 500 {string} string "Internal server error"
+// @Router /countries/{id} [get]
 func (s *Server) GetOne(w http.ResponseWriter, r *http.Request) {
 	s.l.Println("[DEBUG] GET ONE METHOD")
 	vars := mux.Vars(r)
@@ -42,6 +56,15 @@ func (s *Server) GetOne(w http.ResponseWriter, r *http.Request) {
 	s.respond(w, r, country, http.StatusOK)
 }
 
+// UpdateOne godoc
+// @Summary Update country based on parameter
+// @Description Update country
+// @ID update-country-details
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Country
+// @Failure 500 {string} string "Internal server error"
+// @Router /countries/{id} [put]
 func (s *Server) UpdateOne(w http.ResponseWriter, r *http.Request) {
 	s.l.Println("[DEBUG] UPDATE ONE METHOD")
 	ctx := context.Background()

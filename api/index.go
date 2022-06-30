@@ -13,6 +13,9 @@ import (
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
 	_ "github.com/jackc/pgx/v4/stdlib"
+
+	_ "github.com/Faroukhamadi/northwind-api/cmd/server/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // dependecy injection
@@ -42,6 +45,13 @@ func Init() (srv *http.Server) {
 	postR := s.router.Methods(http.MethodPut).Subrouter()
 	postR.HandleFunc("/countries", s.UpdateOne).
 		Queries("id", "{id:[A-Z]+}")
+
+	s.router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:9090/swagger/doc.json"),
+		httpSwagger.DeepLinking(true),
+		httpSwagger.DocExpansion("none"),
+		httpSwagger.DomID("swagger-ui"),
+	)).Methods(http.MethodGet)
 
 	srv = &http.Server{
 		Addr:    ":9090",
